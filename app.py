@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
-from views.views_list import View_List
+from src.views.views_list import View_List
 
 
 class App():

@@ -7,8 +7,10 @@ class View_List():
 
     def __init__(self) -> None:
         self.list = [
-            Produtos
+            Produtos,
+            Login
         ]
 
 
 from .produtos.view import Produtos
+from .login.view import Login
