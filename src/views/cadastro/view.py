@@ -4,8 +4,8 @@ from typing import List
 from .post.post import Post
 
 
-class Login(FlaskView):
-    rota: str = '/login'
+class Cadastro(FlaskView):
+    rota: str = '/cadastro'
     methods: List[str] = ['POST']
     name: str = __name__
 

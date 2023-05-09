@@ -1,7 +1,7 @@
 from flask.views import View as FlaskView
 from flask import Response
 from typing import List
-from .post.Post import Post
+from .post.post import Post
 
 
 class Produtos(FlaskView):
