@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from src.views.views_list import View_List
+from dotenv import load_dotenv
 
 
 class App():
@@ -24,4 +25,5 @@ class App():
 
 
 if __name__ == "__main__":
+    load_dotenv()
     App()
