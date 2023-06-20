@@ -1,8 +1,8 @@
 from ....decorators.validar_request import Validar_Request
-from typing import Dict
 from flask import request
 from ....banco.banco import Banco
 from datetime import datetime
+import bcrypt
 
 
 class Post():
@@ -30,40 +30,34 @@ class Post():
     })
     def handle_request(self):
         try:
-            assert self.banco.conectar() == True
-        except Exception as e:
-            return {"menssagem": "erro"}, 500
+            req_json = request.get_json().get("data")
+
+            self.banco.conectar() == True
             
-        req_json: Dict[str, any] = request.get_json().get("data")
-        conexao = self.banco.get_conexao()
+            nascimento = datetime.strptime(req_json.get("nascimento"), "%d/%m/%Y")
+            query = f"""
+                INSERT INTO cliente(
+                    nome, sobrenome,
+                    email, senha,
+                    pais, sexo,
+                    nascimento
+                ) 
+                values(
+                    "{req_json.get("nome")}", "{req_json.get("sobrenome")}",
+                    "{req_json.get("email")}", "{self.criptografar_senha(req_json.get("senha"))}",
+                    "{req_json.get("pais")}", "{req_json.get("sexo")}",
+                    "{nascimento.strftime("%Y-%m-%d")}"
+                );
+            """
+            self.banco.execultar(query)
 
-        try:
-            assert conexao
+            self.banco.desconectar()
+            return {"menssagem": "ok"}, 200
         except Exception as e:
             return {"menssagem": "erro"}, 500
-        
 
-        nascimento = datetime.strptime(req_json.get("nascimento"), "%d/%m/%Y")
-        query = f"""
-            INSERT INTO cliente(
-                nome, sobrenome,
-                email, senha,
-                pais, sexo,
-                nascimento
-            ) 
-            values(
-                "{req_json.get("nome")}", "{req_json.get("sobrenome")}",
-                "{req_json.get("email")}", "{req_json.get("senha")}",
-                "{req_json.get("pais")}", "{req_json.get("sexo")}",
-                "{nascimento.strftime("%Y-%m-%d")}"
-            );
-        """
-        res = self.banco.execultar(query)
 
-        try:
-            assert self.banco.desconectar() == True
-        except Exception as e:
-            return {"menssagem": "erro"}, 500
-        
-        return {"menssagem": "ok"}, 200
-
+    def criptografar_senha(self, senha: str) -> str:
+        salt = bcrypt.gensalt()
+        hash_senha = bcrypt.hashpw(senha.encode('utf-8'), salt)
+        return hash_senha.decode('utf-8')

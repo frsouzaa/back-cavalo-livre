@@ -1,4 +1,6 @@
-use CavaloLivre
+create database CavaloLivre;
+
+use CavaloLivre;
 
 create table produto (
 	id int primary key auto_increment not null,

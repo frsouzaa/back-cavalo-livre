@@ -5,7 +5,6 @@ from cerberus import Validator
 
 class Validar_Request():
     req: Dict[str,any]
-    func: Callable
 
 
     def __init__(self, req=None):

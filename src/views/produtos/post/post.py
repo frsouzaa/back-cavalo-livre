@@ -5,5 +5,5 @@ class Post():
     
 
     @Validar_Token
-    def handle_request(self):
+    def handle_request():
         return {"data": "Produtos"}, 200

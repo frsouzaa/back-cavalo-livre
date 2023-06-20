@@ -1,12 +1,13 @@
 import jwt
 from flask import request, jsonify
 from typing import Callable
+from os import getenv
 
 
 class Validar_Token():
 
 
-    def __init__(self, func:Callable)-> None:
+    def __init__(self, func: Callable)-> None:
         self.func = func
 
 
@@ -17,7 +18,7 @@ class Validar_Token():
         if not token:
             return jsonify({'mensagem': 'Está faltando o token'}), 401
         try:
-            data = jwt.decode(token, 'your-secret-key', algorithms=["HS256"])
+            jwt.decode(token, getenv("key"), algorithms=["HS256"])
         except:
             return jsonify({'mensagem': 'Token inválido'}), 401
         return self.func(*args, **kwargs)
