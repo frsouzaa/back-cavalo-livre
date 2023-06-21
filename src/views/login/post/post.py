@@ -2,7 +2,6 @@ from ....decorators.validar_request import Validar_Request
 from flask import request
 from ....banco.banco import Banco
 import bcrypt
-from ....entidades_relacionais.cliente import Cliente
 import jwt
 from typing import Dict
 from os import getenv
@@ -10,6 +9,7 @@ from datetime import datetime, timedelta
 
 
 class Post():
+    banco: Banco
 
 
     def __init__(self) -> None:
@@ -42,29 +42,21 @@ class Post():
                 return {"menssagem": "login ou senha inválidos"}, 404
             
             res = res[0]
-            cliente = Cliente(id=res[0],
-                              nome=res[1],
-                              sobrenome=res[2],
-                              email=res[3],
-                              senha=res[4],
-                              nascimento=res[5],
-                              pais=res[6], 
-                              sexo=res[7])
             
-            if not self.descriptografar_senha(req_json.get("senha"), cliente.senha):
+            if not self.descriptografar_senha(req_json.get("senha"), res.get("senha")):
                 return {"menssagem": "login ou senha inválidos"}, 404
 
             token = self.gerar_token_jwt(req_json)
 
             query = f"""
-                insert into sessao(id_cliente, token) values({cliente.id}, "{token}")
+                insert into sessao(id_cliente, token) values({res.get("id")}, "{token}")
             """
             self.banco.execultar(query)
 
             self.banco.desconectar()
             return {"token": token}, 200
         except Exception as e:
-            return {"menssagem": "erro"}, 500
+            return {"msg": "erro"}, 500
     
 
     def descriptografar_senha(self, senha: str, hash_senha: str):

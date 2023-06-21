@@ -20,7 +20,7 @@ class Banco():
 
 
     def execultar(self, comando: str) -> List[Tuple]:
-        cursor = self.conexao.cursor()
+        cursor = self.conexao.cursor(dictionary=True)
         cursor.execute(comando)
         res = cursor.fetchall()
         self.conexao.commit()

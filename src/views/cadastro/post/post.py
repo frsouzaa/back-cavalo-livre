@@ -54,7 +54,7 @@ class Post():
             self.banco.desconectar()
             return {"menssagem": "ok"}, 200
         except Exception as e:
-            return {"menssagem": "erro"}, 500
+            return {"msg": "erro"}, 500
 
 
     def criptografar_senha(self, senha: str) -> str:

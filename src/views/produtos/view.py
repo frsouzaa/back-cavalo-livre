@@ -1,12 +1,12 @@
 from flask.views import View as FlaskView
 from flask import Response
 from typing import List
-from .post.post import Post
+from .get.get import Get
 
 
 class Produtos(FlaskView):
     rota: str = '/produtos'
-    methods: List[str] = ['POST']
+    methods: List[str] = ['GET']
     name: str = __name__
 
     
@@ -15,4 +15,4 @@ class Produtos(FlaskView):
 
 
     def post(self):
-        return Post().handle_request()
+        return Get().handle_request()

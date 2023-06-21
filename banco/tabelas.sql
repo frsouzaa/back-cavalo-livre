@@ -7,7 +7,7 @@ create table produto (
 	nome varchar(100) not null,
 	preco float not null,
 	descricao varchar(1000) not null,
-	imagens varchar(10000) not null
+	imagens LONGTEXT not null
 );
 
 create table categoria (
