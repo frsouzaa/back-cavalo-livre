@@ -24,6 +24,7 @@ class Post():
                 'pais': {'type': 'string', 'empty': False, 'required': True},
                 'nascimento': {'type': 'string', 'empty': False, 'required': True},
                 'sexo': {'type': 'string', 'empty': False, 'required': True},
+                'cpf': {'type': 'string', 'empty': False, 'required': True},
             },
             'required': True
         }
@@ -40,13 +41,13 @@ class Post():
                     nome, sobrenome,
                     email, senha,
                     pais, sexo,
-                    nascimento
+                    nascimento, cpf
                 ) 
                 values(
                     "{req_json.get("nome")}", "{req_json.get("sobrenome")}",
                     "{req_json.get("email")}", "{self.criptografar_senha(req_json.get("senha"))}",
                     "{req_json.get("pais")}", "{req_json.get("sexo")}",
-                    "{nascimento.strftime("%Y-%m-%d")}"
+                    "{nascimento.strftime("%Y-%m-%d")}", "{req_json.get("cpf")}"
                 );
             """
             self.banco.execultar(query)

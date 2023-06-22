@@ -9,7 +9,6 @@ class App():
 
     
     def __init__(self) -> None:
-        self.app.config['JSON_AS_ASCII'] = False
         CORS(self.app)
         self.cadastrar_rotas()
         self.run_App()

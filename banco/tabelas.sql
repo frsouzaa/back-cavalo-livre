@@ -31,7 +31,8 @@ create table cliente (
 	senha varchar(100) not null,
 	nascimento date not null,
 	pais varchar(100) not null,
-	sexo varchar(100) not null
+	sexo varchar(100) not null,
+	cpf varchar(20) not null
 );
 
 create table pedido (
