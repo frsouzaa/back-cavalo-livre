@@ -2,7 +2,7 @@ from ....decorators.validar_request import Validar_Request
 from flask import request
 from ....banco.banco import Banco
 from datetime import datetime
-import bcrypt
+from ....utils.senha import Senha
 
 
 class Post():
@@ -46,7 +46,7 @@ class Post():
                 ) 
                 values(
                     "{req_json.get("nome")}", "{req_json.get("sobrenome")}",
-                    "{req_json.get("email")}", "{self.criptografar_senha(req_json.get("senha"))}",
+                    "{req_json.get("email")}", "{Senha.criptografar(req_json.get("senha"))}",
                     "{req_json.get("pais")}", "{req_json.get("sexo")}",
                     "{nascimento.strftime("%Y-%m-%d")}", "{req_json.get("cpf")}"
                 );
@@ -56,10 +56,4 @@ class Post():
             self.banco.desconectar()
             return {"msg": "ok"}, 200
         except Exception as e:
-            return {"msg": "erro"}, 500
-
-
-    def criptografar_senha(self, senha: str) -> str:
-        salt = bcrypt.gensalt()
-        hash_senha = bcrypt.hashpw(senha.encode('utf-8'), salt)
-        return hash_senha.decode('utf-8')
+            return {"msg": "Erro"}, 500

@@ -18,7 +18,7 @@ class Validar_Token():
         if not token:
             return jsonify({'msg': 'Está faltando o token'}), 401
         try:
-            jwt.decode(token, getenv("key"), algorithms=["HS256"])
+            jwt.decode(token, getenv("KEY"), algorithms=["HS256"])
         except:
             return jsonify({'msg': 'Token inválido'}), 401
         return self.func(*args, **kwargs)

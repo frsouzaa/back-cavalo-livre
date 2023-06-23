@@ -1,9 +1,8 @@
 from ....decorators.validar_request import Validar_Request
+from ....decorators.validar_token import Validar_Token
 from flask import request
 from ....banco.banco import Banco
 from typing import Tuple, Dict
-from os import getenv
-from datetime import datetime, timedelta
 
 
 class Post():
@@ -29,6 +28,7 @@ class Post():
             },
         }
     })
+    @Validar_Token
     def handle_request(self) -> Tuple[Dict[str, any], int]:
         try:
             req_json = request.get_json().get("data")
@@ -50,7 +50,7 @@ class Post():
                 select id, preco from produto where id in ({','.join(lista_prod)})
             """
             precos = self.banco.execultar(query)[0]
-            precos = {i.get("id"): i.get("preco") for i in precos}
+            precos = {str(i.get("id")): i.get("preco") for i in precos}
 
             query = f"""
                 insert into pedido(id_cliente) values({usuario.get("id")})

@@ -53,7 +53,7 @@ create table item (
 
 create table sessao (
 	id int primary key auto_increment not null,
-	token varchar(200) unique not null,
+	token varchar(1000) unique not null,
 	id_cliente int not null,
 	foreign key (id_cliente) references cliente(id)
 );

@@ -20,7 +20,7 @@ class App():
 
 
     def run_App(self)->None:
-        self.app.run(host='0.0.0.0', port="5005", debug=True)
+        self.app.run(host='0.0.0.0', port="8000", debug=True)
 
 
 if __name__ == "__main__":

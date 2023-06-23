@@ -41,4 +41,4 @@ class Get():
             self.banco.desconectar()
             return {"data": res}, 200
         except Exception as e:
-            return {"msg": "erro"}, 500
+            return {"msg": "Erro"}, 500
