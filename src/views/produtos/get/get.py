@@ -32,7 +32,7 @@ class Get():
             self.banco.conectar() == True
             
 
-            res = self.banco.execultar(query)
+            res = self.banco.execultar(query)[0]
 
             for i in range(len(res)):
                 res[i]["imagens"] = res[i]["imagens"].split("|")

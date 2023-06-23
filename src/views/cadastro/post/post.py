@@ -16,6 +16,8 @@ class Post():
     @Validar_Request({
         'data': {
             'type': 'dict',
+            'empty': False, 
+            'required': True,
             'schema': {
                 'email': {'type': 'string', 'empty': False, 'required': True},
                 'senha': {'type': 'string', 'empty': False, 'required': True},
@@ -26,7 +28,6 @@ class Post():
                 'sexo': {'type': 'string', 'empty': False, 'required': True},
                 'cpf': {'type': 'string', 'empty': False, 'required': True},
             },
-            'required': True
         }
     })
     def handle_request(self):
@@ -53,7 +54,7 @@ class Post():
             self.banco.execultar(query)
 
             self.banco.desconectar()
-            return {"menssagem": "ok"}, 200
+            return {"msg": "ok"}, 200
         except Exception as e:
             return {"msg": "erro"}, 500
 

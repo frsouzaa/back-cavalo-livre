@@ -15,16 +15,16 @@ class Post():
     def __init__(self) -> None:
         self.banco = Banco()
 
-    
 
     @Validar_Request({
         'data': {
             'type': 'dict',
+            'empty': False, 
+            'required': True,
             'schema': {
                 'email': {'type': 'string', 'empty': False, 'required': True},
                 'senha': {'type': 'string', 'empty': False, 'required': True}
             },
-            'required': True
         }
     })
     def handle_request(self):
@@ -36,15 +36,15 @@ class Post():
             query = f"""
                 select * from cliente where email = "{req_json.get("email")}"
             """
-            res = self.banco.execultar(query)
+            res = self.banco.execultar(query)[0]
 
             if not res:
-                return {"menssagem": "login ou senha inválidos"}, 404
+                return {"msg": "login ou senha inválidos"}, 404
             
             res = res[0]
             
             if not self.descriptografar_senha(req_json.get("senha"), res.get("senha")):
-                return {"menssagem": "login ou senha inválidos"}, 404
+                return {"msg": "login ou senha inválidos"}, 404
 
             token = self.gerar_token_jwt(req_json)
 
@@ -54,7 +54,18 @@ class Post():
             self.banco.execultar(query)
 
             self.banco.desconectar()
-            return {"token": token}, 200
+            return {
+                "data": {
+                    "token": token,
+                    "email": res["email"],
+                    "nome": res["nome"],
+                    "sobrenome": res["sobrenome"],
+                    "nascimento": res["nascimento"],
+                    "pais": res["pais"],
+                    "sexo": res["sexo"],
+                    "cpf": res["cpf"],
+                }
+            }, 200
         except Exception as e:
             return {"msg": "erro"}, 500
     

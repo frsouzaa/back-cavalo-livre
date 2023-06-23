@@ -19,7 +19,7 @@ class Validar_Request():
             }
             v = Validator(self.req)
             if (v.validate(conteudoRequest["json"]) is not True):
-                return {"menssagem": v.errors}, 400
+                return {"msg": v.errors}, 400
             if f is not None:
                 return func(f, *args, **kwargs)
             return func(*args,**kwargs)

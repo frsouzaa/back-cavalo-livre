@@ -19,12 +19,13 @@ class Banco():
         return self.conexao
 
 
-    def execultar(self, comando: str) -> List[Tuple]:
+    def execultar(self, comando: str) -> Tuple[List[dict], int]:
         cursor = self.conexao.cursor(dictionary=True)
         cursor.execute(comando)
+        ultimo_id = cursor.lastrowid
         res = cursor.fetchall()
         self.conexao.commit()
-        return res
+        return res, ultimo_id
             
     
     def desconectar(self) -> None:

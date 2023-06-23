@@ -16,9 +16,9 @@ class Validar_Token():
         if 'Authorization' in request.headers:
             token = request.headers['Authorization'].split(' ')[1]
         if not token:
-            return jsonify({'mensagem': 'Está faltando o token'}), 401
+            return jsonify({'msg': 'Está faltando o token'}), 401
         try:
             jwt.decode(token, getenv("key"), algorithms=["HS256"])
         except:
-            return jsonify({'mensagem': 'Token inválido'}), 401
+            return jsonify({'msg': 'Token inválido'}), 401
         return self.func(*args, **kwargs)
